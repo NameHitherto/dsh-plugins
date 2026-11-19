@@ -3,6 +3,9 @@
   "description": "Pause after each agent step and prompt the user with predefined evaluation options before resuming.",
   "version": "0.1.0",
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "author": "NameHitherto",
   "homepage": "https://github.com/NameHitherto/dsh-plugins/tree/main/dsh-step-review-plugin#readme",
   "repository": {
@@ -50,6 +53,7 @@
   "scripts": {
     "build": "tsc -b tsconfig.json && tsdown --config-loader native --config tsdown.config.ts",
     "prepare": "tsdown --config-loader native --config tsdown.config.ts",
+    "prepublishOnly": "pnpm run typecheck && pnpm run test && pnpm run build",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "vitest run --config vitest.config.ts"
   },

@@ -2,29 +2,28 @@
 
 English | [中文](README.zh.md)
 
-Plugin monorepo for [DeepSeek Harness (DSH)](https://github.com/deepseek-ai/deepseek-harness). Each directory matching `dsh-*` is a self-contained Cordis bundle package declaring `dsh.bundle` and a `prepare` script so it can be installed directly from GitHub, packed as a tarball, published to npm, or indexed by the DSH plugin market generator.
+Plugin monorepo for [DeepSeek Harness (DSH)](https://github.com/deepseek-ai/deepseek-harness). Each directory matching `dsh-*` is a self-contained Cordis bundle package declaring `dsh.bundle`, `publishConfig`, and `prepublishOnly` checks.
 
 ## Plugins
 
 | Package | Directory | Description |
 |---|---|---|
 | [`dsh-step-review-plugin`](./dsh-step-review-plugin) | `dsh-step-review-plugin` | Pause after each completed agent step and prompt the user with predefined evaluation options via `ctx.userQuestions` before resuming. |
+| [`dsh-officebench-plugin`](./dsh-officebench-plugin) | `dsh-officebench-plugin` | Interactive OfficeBench debugging workbench, programmatic TypeScript batch office tools (PTC preset), and live rule-by-rule task evaluator for DSH Web UI. |
 
-## Installing a plugin into DeepSeek Harness
+## Release and installation policy
 
-### From GitHub (recommended)
+- **Standard delivery (npm first):** Every plugin created in this repository must be published to npm before normal use. DeepSeek Harness profiles subscribe to and install plugins from npm by package name.
+- **Local tarball installation (development & testing only):** Packing a local `.tgz` and installing it directly is intended only for local development, debugging, and smoke testing before publishing to npm.
 
-Install a plugin into your profile (pinning a release tag or commit SHA is recommended):
+### Installing a published plugin from npm (standard)
+
+Install or subscribe to a published plugin into your DSH profile:
 
 ```sh
-dsh plugin --profile <profile> add "git+https://github.com/NameHitherto/dsh-plugins.git#dsh-step-review-plugin@0.1.0&path:/dsh-step-review-plugin"
-```
-
-Because Git-hosted plugins ship TypeScript source and build via their `prepare` script on install, pnpm ≥10 blocks the build script on the first run and prints the exact package key to allow. Copy that key under `allowBuilds` in `$DSH_HOME/profiles/<profile>/pnpm-workspace.yaml` and re-run the `add` command:
-
-```yaml
-allowBuilds:
-  dsh-step-review-plugin@https://codeload.github.com/NameHitherto/dsh-plugins/tar.gz/<commit-sha>#path:/dsh-step-review-plugin: true
+dsh plugin --profile <profile> add <package-name>
+# Or pin a specific version:
+dsh plugin --profile <profile> add <package-name>@<version>
 ```
 
 Verify the composed configuration without launching:
@@ -33,18 +32,31 @@ Verify the composed configuration without launching:
 dsh --profile <profile> --dump-config
 ```
 
-To remove the plugin later:
+To remove a plugin later:
 
 ```sh
-dsh plugin --profile <profile> remove dsh-step-review-plugin
+dsh plugin --profile <profile> remove <package-name>
 ```
 
-### From a prebuilt tarball
+### Publishing a plugin to npm
+
+Each package's `prepublishOnly` script automatically runs `typecheck`, `test`, and `build` before publishing:
 
 ```sh
-pnpm --filter dsh-step-review-plugin run build
-pnpm --filter dsh-step-review-plugin pack
-dsh plugin --profile <profile> add ./dsh-step-review-plugin/dsh-step-review-plugin-0.1.0.tgz
+pnpm --filter <package-name> pack --dry-run
+pnpm --filter <package-name> publish
+```
+
+After publishing, tag the release as `<package-name>@<version>` (for example, `dsh-officebench-plugin@0.1.0`) so GitHub releases and the DSH plugin market index stay aligned with npm.
+
+### Local tarball installation (development & testing only)
+
+For local development and pre-release testing before publishing to npm:
+
+```sh
+pnpm --filter <package-name> run build
+pnpm --filter <package-name> pack
+dsh plugin --profile <profile> add ./<package-name>/<package-name>-<version>.tgz
 ```
 
 ## Development
@@ -57,10 +69,6 @@ pnpm run typecheck
 pnpm run test
 pnpm run build
 ```
-
-## Release tagging convention
-
-To remain compatible with the DSH plugin market index generator, tag package releases as `<package-name>@<version>` (for example, `dsh-step-review-plugin@0.1.0`).
 
 ## License
 

@@ -6,20 +6,28 @@ A DeepSeek Harness bundle plugin published via npm that pauses execution after e
 
 ## Installation
 
-### From GitHub (`NameHitherto/dsh-plugins`)
+### From npm (standard)
 
-Install the bundle into your `dsh` profile:
+Install the published bundle from npm into your `dsh` profile:
 
 ```sh
-dsh plugin --profile web add "git+https://github.com/NameHitherto/dsh-plugins.git#dsh-step-review-plugin@0.1.0&path:/dsh-step-review-plugin"
+dsh plugin --profile web add dsh-step-review-plugin
 ```
-
-On the first install with pnpm ≥10, copy the exact `allowBuilds` key printed by pnpm into `$DSH_HOME/profiles/<profile>/pnpm-workspace.yaml` and re-run the command.
 
 Or preview the composed configuration without launching:
 
 ```sh
 dsh --profile web --dump-config
+```
+
+### Local tarball installation (development & testing only)
+
+For local development and pre-publish testing only:
+
+```sh
+pnpm --filter dsh-step-review-plugin run build
+pnpm --filter dsh-step-review-plugin pack
+dsh plugin --profile web add ./dsh-step-review-plugin/dsh-step-review-plugin-0.1.0.tgz
 ```
 
 ## Configuration

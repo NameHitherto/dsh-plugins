@@ -1,0 +1,138 @@
+{
+  "name": "dsh-officebench-plugin",
+  "description": "Interactive OfficeBench debugging workbench, programmatic office tools (PTC), and live task evaluator for DeepSeek Harness Web UI.",
+  "version": "0.1.0",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": "NameHitherto",
+  "homepage": "https://github.com/NameHitherto/dsh-plugins/tree/main/dsh-officebench-plugin#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NameHitherto/dsh-plugins.git",
+    "directory": "dsh-officebench-plugin"
+  },
+  "keywords": [
+    "deepseek-harness",
+    "dsh-plugin",
+    "cordis",
+    "officebench",
+    "ptc",
+    "benchmark"
+  ],
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./tools": {
+      "types": "./lib/types/tools-plugin.d.ts",
+      "default": "./lib/tools-plugin.js"
+    },
+    "./client": "./lib/client.js",
+    "./src/*": "./src/*",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "files": [
+    "locale/*.json",
+    "lib/**/*.js",
+    "lib/**/*.js.map",
+    "lib/types/**/*.d.ts",
+    "lib/types/**/*.d.ts.map",
+    "cordis.patch.yml",
+    "src"
+  ],
+  "engines": {
+    "dsh": ">=0.2.0 <0.3.0",
+    "node": ">=24.9.0"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web"
+    }
+  },
+  "scripts": {
+    "build": "tsc -b tsconfig.json && tsc -p tsconfig.client.json --noEmit && tsdown --config-loader native --config tsdown.config.ts",
+    "prepare": "tsdown --config-loader native --config tsdown.config.ts",
+    "prepublishOnly": "pnpm run typecheck && pnpm run test && pnpm run build",
+    "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.client.json --noEmit",
+    "test": "vitest run --config vitest.config.ts"
+  },
+  "dependencies": {
+    "@deepseek-ai/schemastery": "^3.19.0",
+    "exceljs": "^4.4.0",
+    "jszip": "^3.10.2",
+    "pdf-lib": "^1.17.1",
+    "postal-mime": "^4.2.1",
+    "tesseract.js": "^7.0.0",
+    "unpdf": "^2.2.1"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "^4.1.0",
+    "@deepseek-ai/dsh-agent": ">=0.2.0-0 <0.3.0",
+    "@deepseek-ai/dsh-llm": ">=0.2.0-0 <0.3.0",
+    "@deepseek-ai/dsh-session": ">=0.2.0-0 <0.3.0",
+    "@deepseek-ai/dsh-system-prompt": ">=0.2.0-0 <0.3.0",
+    "@deepseek-ai/dsh-tools": ">=0.2.0-0 <0.3.0",
+    "@deepseek-ai/dsh-working-directory": ">=0.2.0-0 <0.3.0",
+    "@deepseek-ai/dsh-client-connection": ">=0.2.0-0 <0.3.0"
+  },
+  "peerDependenciesMeta": {
+    "@deepseek-ai/dsh-client-connection": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "^4.1.0",
+    "@deepseek-ai/dsh-agent": "^0.2.2-rc.5",
+    "@deepseek-ai/dsh-agent-loop": "^0.2.2-rc.5",
+    "@deepseek-ai/dsh-api-session-controller": "^0.2.2-rc.5",
+    "@deepseek-ai/dsh-api-workspace-controller": "^0.2.2-rc.5",
+    "@deepseek-ai/dsh-brand": "^0.2.2-rc.5",
+    "@deepseek-ai/dsh-client-connection": "^0.2.2-rc.5",
+    "@deepseek-ai/dsh-client-locale": "^0.2.2-rc.5",
+    "@deepseek-ai/dsh-client-store": "^0.2.2-rc.5",
+    "@deepseek-ai/dsh-client-ui-chat": "^0.2.2-rc.5",
+    "@deepseek-ai/dsh-client-ui-conversation": "^0.2.2-rc.5",
+    "@deepseek-ai/dsh-client-ui-layout": "^0.2.2-rc.5",
+    "@deepseek-ai/dsh-client-ui-primitives": "^0.2.2-rc.5",
+    "@deepseek-ai/dsh-client-ui-renderer": "^0.2.2-rc.5",
+    "@deepseek-ai/dsh-client-ui-session": "^0.2.2-rc.5",
+    "@deepseek-ai/dsh-client-ui-sidebar": "^0.2.2-rc.5",
+    "@deepseek-ai/dsh-client-ui-sidebar-right": "^0.2.2-rc.5",
+    "@deepseek-ai/dsh-client-ui-slots": "^0.2.2-rc.5",
+    "@deepseek-ai/dsh-client-ui-tool": "^0.2.2-rc.5",
+    "@deepseek-ai/dsh-client-ui-workspace": "^0.2.2-rc.5",
+    "@deepseek-ai/dsh-fs-sandbox": "^0.2.2-rc.5",
+    "@deepseek-ai/dsh-llm": "^0.2.2-rc.5",
+    "@deepseek-ai/dsh-ptc-runtime": "^0.2.2-rc.5",
+    "@deepseek-ai/dsh-ptc-runtime-node": "^0.2.2-rc.5",
+    "@deepseek-ai/dsh-sandbox": "^0.2.2-rc.5",
+    "@deepseek-ai/dsh-sandbox-policy": "^0.2.2-rc.5",
+    "@deepseek-ai/dsh-scope": "^0.2.2-rc.5",
+    "@deepseek-ai/dsh-session": "^0.2.2-rc.5",
+    "@deepseek-ai/dsh-session-projection": "^0.2.2-rc.5",
+    "@deepseek-ai/dsh-system-prompt": "^0.2.2-rc.5",
+    "@deepseek-ai/dsh-tool-executor-native": "^0.2.2-rc.5",
+    "@deepseek-ai/dsh-tool-executor-ptc": "^0.2.2-rc.5",
+    "@deepseek-ai/dsh-tool-testkit": "^0.2.2-rc.5",
+    "@deepseek-ai/dsh-tools": "^0.2.2-rc.5",
+    "@deepseek-ai/dsh-user-questions": "^0.2.2-rc.5",
+    "@deepseek-ai/dsh-working-directory": "^0.2.2-rc.5",
+    "@types/node": "^22.20.1",
+    "@types/react": "^18.3.12",
+    "react": "^18.3.1",
+    "tsdown": "^0.22.2",
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.11"
+  }
+}

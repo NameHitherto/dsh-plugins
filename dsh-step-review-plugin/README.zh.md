@@ -6,20 +6,28 @@
 
 ## 安装与启用
 
-### 从 GitHub（`NameHitherto/dsh-plugins`）安装
+### 通过 npm 订阅安装（常规方式）
 
-通过 `dsh plugin` 将该插件安装到指定的 profile（例如 `web`）：
+插件发布至 npm 后，通过 `dsh plugin` 安装到指定的 profile（例如 `web`）：
 
 ```sh
-dsh plugin --profile web add "git+https://github.com/NameHitherto/dsh-plugins.git#dsh-step-review-plugin@0.1.0&path:/dsh-step-review-plugin"
+dsh plugin --profile web add dsh-step-review-plugin
 ```
-
-使用 pnpm ≥10 首次安装时，按终端提示将精确的 `allowBuilds` 键添加到 `$DSH_HOME/profiles/<profile>/pnpm-workspace.yaml` 后重新执行安装命令即可。
 
 也可通过 `--dump-config` 预览组合后的配置：
 
 ```sh
 dsh --profile web --dump-config
+```
+
+### 本地打包直装（仅限开发测试）
+
+仅在本地开发、联调或发版前测试阶段使用：
+
+```sh
+pnpm --filter dsh-step-review-plugin run build
+pnpm --filter dsh-step-review-plugin pack
+dsh plugin --profile web add ./dsh-step-review-plugin/dsh-step-review-plugin-0.1.0.tgz
 ```
 
 ## 工作机制

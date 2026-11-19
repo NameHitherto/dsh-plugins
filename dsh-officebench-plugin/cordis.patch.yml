@@ -1,0 +1,54 @@
+# Mount the OfficeBench workbench host/client service and the dedicated PTC
+# agent preset (`officebench`) into the profile composition.
+# Users can override `config` (such as `datasetDir` or `runsDir`) in their
+# profile's `cordis.patch.yml` or directly from the Web UI Workbench.
+- insert:
+    - id: officebench
+      name: dsh-officebench-plugin
+      config:
+        # Leave empty to fall back to $OFFICEBENCH_DIR or configure directly in the Web UI Workbench.
+        datasetDir: ''
+        # Leave empty to default to $DSH_HOME/officebench-runs (or ~/.dsh/officebench-runs).
+        runsDir: ''
+        shellTimeoutMs: 30000
+        ocrLanguage: eng
+        registerToolsGlobally: false
+
+    - id: preset-officebench
+      name: '@deepseek-ai/dsh-agent-preset'
+      config:
+        id: officebench
+        name: OfficeBench (PTC)
+        description: Interactive OfficeBench debugging preset with programmatic TypeScript batch calling (run_code) across Excel, Word, PDF, OCR, Email, Calendar, and Shell tools.
+        order: 5
+        plugins:
+          - id: persona
+            name: '@deepseek-ai/dsh-persona'
+            config:
+              prefix: >-
+                You are an OfficeBench office-automation agent powered by the {{model}} model.
+                Solve the user's office automation task accurately and efficiently by writing concise TypeScript programs in `run_code` that batch-call the registered OfficeBench tools (`tools.officebench_*`, `tools.excel_*`, `tools.word_*`, `tools.pdf_*`, `tools.ocr_*`, `tools.email_*`, `tools.calendar_*`, `tools.shell_command`, `tools.finish_task`).
+          - id: officebench-tools
+            name: dsh-officebench-plugin/tools
+          - id: compaction
+            name: cordis:group
+            group: true
+            isolate:
+              compaction: true
+              toolResultPruner: true
+            config:
+              - id: compaction-basic
+                name: '@deepseek-ai/dsh-compaction-basic'
+              - id: command-compact
+                name: '@deepseek-ai/dsh-command-compact'
+              - id: tool-result-pruner
+                name: '@deepseek-ai/dsh-compaction-tool-result-pruner'
+                config:
+                  thresholdChars: 8192
+                  headChars: 4096
+                  tailChars: 1024
+          - id: tool-executor-ptc
+            name: '@deepseek-ai/dsh-tool-executor-ptc'
+            config:
+              maxSubCallsPerMinute: 1024
+              maxParallelSubCalls: 10
