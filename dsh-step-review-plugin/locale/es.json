@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Evaluación por paso",
+    "description": "Pausa después de cada paso del agente y muestra opciones de evaluación predefinidas antes de continuar."
+  }
+}

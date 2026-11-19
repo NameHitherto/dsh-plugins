@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Step review",
+    "description": "Pause after each agent step and prompt the user with predefined evaluation options before resuming."
+  }
+}

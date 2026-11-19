@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Évaluation d’étape",
+    "description": "Met en pause après chaque étape de l’agent et affiche des options d’évaluation prédéfinies avant de reprendre."
+  }
+}

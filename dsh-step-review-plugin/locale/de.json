@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Schrittbewertung",
+    "description": "Pausiert nach jedem Agentenschritt und zeigt vordefinierte Bewertungsoptionen vor dem Fortsetzen an."
+  }
+}

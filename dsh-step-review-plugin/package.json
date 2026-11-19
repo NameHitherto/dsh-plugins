@@ -1,0 +1,84 @@
+{
+  "name": "dsh-step-review-plugin",
+  "description": "Pause after each agent step and prompt the user with predefined evaluation options before resuming.",
+  "version": "0.1.0",
+  "license": "MIT",
+  "author": "NameHitherto",
+  "homepage": "https://github.com/NameHitherto/dsh-plugins/tree/main/dsh-step-review-plugin#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NameHitherto/dsh-plugins.git",
+    "directory": "dsh-step-review-plugin"
+  },
+  "keywords": [
+    "deepseek-harness",
+    "dsh-plugin",
+    "cordis",
+    "step-review"
+  ],
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./src/*": "./src/*",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "files": [
+    "locale/*.json",
+    "lib/index.js",
+    "cordis.patch.yml",
+    "lib/types/**/*.d.ts",
+    "lib/types/**/*.d.ts.map",
+    "lib/**/*.js.map",
+    "src"
+  ],
+  "engines": {
+    "dsh": ">=0.2.0 <0.3.0",
+    "node": ">=24.9.0"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "scripts": {
+    "build": "tsc -b tsconfig.json && tsdown --config-loader native --config tsdown.config.ts",
+    "prepare": "tsdown --config-loader native --config tsdown.config.ts",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run --config vitest.config.ts"
+  },
+  "dependencies": {
+    "@deepseek-ai/schemastery": "^3.19.0"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "^4.1.0",
+    "@deepseek-ai/dsh-agent": ">=0.2.0-0 <0.3.0",
+    "@deepseek-ai/dsh-llm": ">=0.2.0-0 <0.3.0",
+    "@deepseek-ai/dsh-session": ">=0.2.0-0 <0.3.0",
+    "@deepseek-ai/dsh-user-questions": ">=0.2.0-0 <0.3.0"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "^4.1.0",
+    "@deepseek-ai/dsh-agent": "^0.2.2-rc.5",
+    "@deepseek-ai/dsh-agent-loop": "^0.2.2-rc.5",
+    "@deepseek-ai/dsh-brand": "^0.2.2-rc.5",
+    "@deepseek-ai/dsh-llm": "^0.2.2-rc.5",
+    "@deepseek-ai/dsh-session": "^0.2.2-rc.5",
+    "@deepseek-ai/dsh-session-projection": "^0.2.2-rc.5",
+    "@deepseek-ai/dsh-system-prompt": "^0.2.2-rc.5",
+    "@deepseek-ai/dsh-tool-executor-native": "^0.2.2-rc.5",
+    "@deepseek-ai/dsh-tool-testkit": "^0.2.2-rc.5",
+    "@deepseek-ai/dsh-tools": "^0.2.2-rc.5",
+    "@deepseek-ai/dsh-user-questions": "^0.2.2-rc.5",
+    "@types/node": "^22.20.1",
+    "tsdown": "^0.22.2",
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.11"
+  }
+}
