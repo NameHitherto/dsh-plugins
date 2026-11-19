@@ -1,0 +1,33 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build outputs
+lib/
+dist/
+*.tsbuildinfo
+
+# Test and cache outputs
+coverage/
+.vite/
+.vitest/
+.cache/
+.plugin-market-cache/
+
+# Package tarballs
+*.tgz
+
+# Logs
+pnpm-debug.log*
+npm-debug.log*
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# OS and editor metadata
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
