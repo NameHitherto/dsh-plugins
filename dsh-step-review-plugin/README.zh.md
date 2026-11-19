@@ -8,18 +8,13 @@
 
 ### 从 GitHub（`NameHitherto/dsh-plugins`）安装
 
-由于 Git 依赖在安装时通过 `prepare` 脚本构建产物，请先在目标 profile 的 `$DSH_HOME/profiles/<profile>/pnpm-workspace.yaml` 中放行构建脚本：
-
-```yaml
-allowBuilds:
-  dsh-step-review-plugin: true
-```
-
-然后通过 `dsh plugin` 将该插件安装到指定的 profile（例如 `web`）：
+通过 `dsh plugin` 将该插件安装到指定的 profile（例如 `web`）：
 
 ```sh
 dsh plugin --profile web add "git+https://github.com/NameHitherto/dsh-plugins.git#dsh-step-review-plugin@0.1.0&path:/dsh-step-review-plugin"
 ```
+
+使用 pnpm ≥10 首次安装时，按终端提示将精确的 `allowBuilds` 键添加到 `$DSH_HOME/profiles/<profile>/pnpm-workspace.yaml` 后重新执行安装命令即可。
 
 也可通过 `--dump-config` 预览组合后的配置：
 

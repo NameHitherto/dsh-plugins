@@ -14,17 +14,17 @@ Plugin monorepo for [DeepSeek Harness (DSH)](https://github.com/deepseek-ai/deep
 
 ### From GitHub (recommended)
 
-Because Git-hosted plugins ship TypeScript source and build via their `prepare` script on install, pnpm ≥10 requires allowing the package's build script in the target profile's `$DSH_HOME/profiles/<profile>/pnpm-workspace.yaml`:
-
-```yaml
-allowBuilds:
-  dsh-step-review-plugin: true
-```
-
-Then install the plugin into your profile (pinning a release tag or commit SHA is recommended):
+Install a plugin into your profile (pinning a release tag or commit SHA is recommended):
 
 ```sh
 dsh plugin --profile <profile> add "git+https://github.com/NameHitherto/dsh-plugins.git#dsh-step-review-plugin@0.1.0&path:/dsh-step-review-plugin"
+```
+
+Because Git-hosted plugins ship TypeScript source and build via their `prepare` script on install, pnpm ≥10 blocks the build script on the first run and prints the exact package key to allow. Copy that key under `allowBuilds` in `$DSH_HOME/profiles/<profile>/pnpm-workspace.yaml` and re-run the `add` command:
+
+```yaml
+allowBuilds:
+  dsh-step-review-plugin@https://codeload.github.com/NameHitherto/dsh-plugins/tar.gz/<commit-sha>#path:/dsh-step-review-plugin: true
 ```
 
 Verify the composed configuration without launching:

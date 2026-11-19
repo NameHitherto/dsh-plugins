@@ -14,17 +14,17 @@
 
 ### 通过 GitHub 仓库安装（推荐）
 
-从 Git 仓库安装的插件只分发源码并在安装时执行 `prepare` 脚本构建产物。pnpm ≥10 默认拦截 Git 依赖的构建脚本，请先在目标 profile 的 `$DSH_HOME/profiles/<profile>/pnpm-workspace.yaml` 中放行：
-
-```yaml
-allowBuilds:
-  dsh-step-review-plugin: true
-```
-
-然后通过 `dsh plugin` 安装指定插件（建议固定到版本 Tag 或 Commit SHA）：
+通过 `dsh plugin` 安装指定插件（建议固定到版本 Tag 或 Commit SHA）：
 
 ```sh
 dsh plugin --profile <profile> add "git+https://github.com/NameHitherto/dsh-plugins.git#dsh-step-review-plugin@0.1.0&path:/dsh-step-review-plugin"
+```
+
+由于从 Git 仓库安装的插件只分发源码并在安装时执行 `prepare` 脚本构建产物，pnpm ≥10 会在首次安装时拦截构建脚本并输出需要放行的精确包键。将该键复制到 `$DSH_HOME/profiles/<profile>/pnpm-workspace.yaml` 的 `allowBuilds` 下后重新执行安装命令即可：
+
+```yaml
+allowBuilds:
+  dsh-step-review-plugin@https://codeload.github.com/NameHitherto/dsh-plugins/tar.gz/<commit-sha>#path:/dsh-step-review-plugin: true
 ```
 
 安装完成后可通过 `--dump-config` 验证配置层是否生效：
